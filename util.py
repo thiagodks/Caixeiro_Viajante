@@ -2,6 +2,7 @@ from scipy.spatial import distance
 import matplotlib.pyplot as plt
 from termcolor import colored
 import numpy as np
+import pandas as pd
 
 def read_adj_matrix(file_name, sep=" ", type_file='EUC2D', start_line=0):
 
@@ -47,17 +48,18 @@ def plot_graphics(population, name_save=""):
 
 	fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
 	fig.set_size_inches(30, 9)
-	title = fig.suptitle('Fitness - AG', fontsize=40, x=0.52, y=0.97)
+	title = fig.suptitle('Fitness - AG', fontsize=40, x=0.45, y=0.97)
 
 	plt.rcParams.update({'font.size': 20})
 	plt.subplots_adjust(left=0.04, right=0.85, top=0.85)
 	plt.gcf().text(0.86, 0.25, (population.get_parameters() + 
 					 '\n\n-----------------------------------------\n\n Melhor Fitness: ' + str (population.best_individual.fitness) +
-					 '\n\n Media Fitness: '+ str (population.avg_fitness) +
-					 '\n\n Mediana Fitness: '+ str (population.median_fitness)+
-					 '\n\n Std Fitness: %.7f' % population.std_fitness), fontsize=16)
+					 '\n\n Media Fitness: %.2f' % population.avg_fitness +
+					 '\n\n Mediana Fitness: %.2f' % population.median_fitness +
+					 '\n\n Std Fitness: %.2f' % population.std_fitness), fontsize=16)
 
-	step = int(population.nger / 100)
+	if population.nger >= 100: step = int(population.nger / 100)
+	else: step = 1
 	avg_ger_step, median_ger_step, best_ger_step = [], [], []
 	for i in range(0, population.nger, step):
 		avg_ger_step.append(avg_ger[i])
@@ -89,5 +91,43 @@ def plot_graphics(population, name_save=""):
 	ax3.legend(ncol=1)
 	ax3.tick_params(labelsize=18)
 
-	print(colored("\033[1m"+"\n => Graphic saved in: " + 'graficos/'+population.file_name+'fitness.png', "green"))
-	fig.savefig('graficos/'+population.file_name+'fitness.png')
+	print(colored("\033[1m"+"\n => Graphic saved in: " + 'graficos/'+name_save+population.file_name+'fitness.png', "green"))
+	fig.savefig('graficos/'+name_save+population.file_name+'fitness.png')
+
+def plot_table(results, results_ord):
+	table = {"NPOP": [], "NGER": [], "TX_M": [], "TX_C": [], "Elitism": [],
+			 "Fitness": [], "Avg Fit": [], "Median Fit": [], "STD": []}
+	
+	for i in results_ord:
+		table["NPOP"].append(results[i[0]].nindiv)
+		table["NGER"].append(results[i[0]].nger)
+		table["TX_M"].append(results[i[0]].mutation_rate)
+		table["TX_C"].append(results[i[0]].crossing_rate)
+		table["Elitism"].append(results[i[0]].elitism)
+		table["Fitness"].append(results[i[0]].best_individual.fitness)
+		table["Avg Fit"].append("%.2f" % results[i[0]].avg_fitness)
+		table["Median Fit"].append("%.2f" % results[i[0]].median_fitness)
+		table["STD"].append("%.2f" % results[i[0]].std_fitness)
+
+	df = pd.DataFrame(data=table)
+	print("\nTable results: \n", df)
+
+	fig, ax = plt.subplots()
+
+	fig.patch.set_visible(False)
+	plt.axis('off')
+	plt.grid('off')
+	fig.set_size_inches(12, 11)
+
+	the_table = ax.table(cellText=df.values,colLabels=df.columns, cellLoc='center', loc='center')
+	the_table.auto_set_font_size(False)
+	the_table.set_fontsize(12)
+
+	plt.gcf().canvas.draw()
+	points = the_table.get_window_extent(plt.gcf()._cachedRenderer).get_points()
+	points[0,:] -= 120; points[1,:] += 120
+	nbbox = matplotlib.transforms.Bbox.from_extents(points/plt.gcf().dpi)
+
+	fig.tight_layout()
+	print(colored("\033[1m"+"\n => Table saved in: " + 'tabelas/'++file[len(file)-1]+'.png', "green"))
+	fig.savefig('tabelas/'+file[len(file)-1]+'.png', dpi=500, bbox_inches=nbbox)

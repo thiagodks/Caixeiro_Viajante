@@ -1,6 +1,7 @@
 import numpy as np
 from population import Population
 
+sasasa
 def load_file(file_name, sep=" "):
 
 	dir_path = "instancias/"+file_name

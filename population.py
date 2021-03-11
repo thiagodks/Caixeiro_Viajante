@@ -2,7 +2,7 @@ import random
 import numpy as np
 from individual import Individual
 
-class Population:
+class Population: 
 
 	def __init__(self, adj_matrix, size_indiv, nindiv, nger, crossing_rate, mutation_rate, elitism):
 		self.adj_matrix = adj_matrix

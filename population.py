@@ -2,7 +2,7 @@ import random
 import numpy as np
 from individual import Individual
 
-class Population: 
+class Population:
 
 	def __init__(self, adj_matrix, size_indiv, nindiv, nger, crossing_rate, mutation_rate, elitism):
 		self.adj_matrix = adj_matrix
@@ -13,6 +13,8 @@ class Population:
 		self.mutation_rate = mutation_rate
 		self.elitism = elitism
 		self.log_ger = []
+		self.file_name = ("npop:"+str(self.nindiv)+"_nger:"+str(self.nger)+"_mr:"+str(self.mutation_rate)+
+						"_cr:"+str(self.crossing_rate)+"_elitism:"+str(self.elitism)+"_")
 
 	def init_pop(self):
 		self.individuals = []
@@ -85,6 +87,7 @@ class Population:
 		self.avg_fitness = np.mean(indiv_fitness)
 		self.median_fitness = np.median(indiv_fitness)
 		self.std_fitness = np.std(indiv_fitness)
+
 		self.log_ger.append((self.best_individual.fitness, self.avg_fitness, self.median_fitness, self.std_fitness))
 
 
@@ -121,9 +124,9 @@ class Population:
 			num_parents += 1
 
 	def get_parameters(self):
-		return ("\n Elitism: " + str(self.elitism) +
-		"\n Number of Individuals: " + str(self.nindiv) +
-		"\n Number of Generations: " + str(self.nger) +
-		"\n Number of Cities: " + str(self.size_indiv) +
-		"\n Mutation Rate: " + str(self.mutation_rate) +
-		"\n Crossover Rate : " + str(self.crossing_rate))
+		return ("\n Number of Generations: " + str(self.nger) +
+			"\n\n Number of Individuals: " + str(self.nindiv) +
+			"\n\n Number of Cities: " + str(self.size_indiv) +
+			"\n\n Crossover Rate : " + str(self.crossing_rate) +
+			"\n\n Mutation Rate: " + str(self.mutation_rate) +
+			"\n\n Elitism: " + str(self.elitism))

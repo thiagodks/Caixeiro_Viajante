@@ -27,7 +27,7 @@ except Exception as e:
 	print(" => ", e, "\n")
 	sys.exit()
 
-population = Population(adj_matrix, size_indiv, nindiv=100, nger=1000, crossing_rate=0.8, mutation_rate=0.01, elitism=True)
+population = Population(adj_matrix, size_indiv, nindiv=100, nger=1000, crossing_rate=1, mutation_rate=0.01, elitism=True)
 population.init_pop()
 print("\033[1m"+population.get_parameters(), end='\n\n')
 
@@ -40,9 +40,12 @@ for current_ger in tqdm(range(0, population.nger), position=0, leave=True):
 	
 	if (current_ger % (population.nger * 0.01)) == 0 or current_ger == population.nger-1:
 		print(colored("\033[1m"+"\n\n  => Best Individual: ", "blue"), population.best_individual.fitness,
-		      colored("\033[1m"+"\n  => Gerations: ", "blue"), current_ger+1)
+		      colored("\033[1m"+"\n  => Gerations: ", "blue"), current_ger)
 		print(colored("\033[1m"+"  => Avg fitness: ", "blue"), population.avg_fitness)
 		print(colored("\033[1m"+"  => Median fitness: ", "blue"), population.median_fitness)
-		print(colored("\033[1m"+"  => Std fitness: ", "blue"), population.std_fitness, end='\n\n')
+		print(colored("\033[1m"+"  => Std fitness: ", "blue"), population.std_fitness, end='\n')
 
-print("")
+util.plot_graphics(population)
+answer = input("\033[1m"+" => View best solution? (y/n): ")
+if answer.lower() == "y":
+	print("\n => Path ("+str(population.best_individual.fitness)+"): \n", population.best_individual.chromosome, end='\n\n')

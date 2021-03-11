@@ -1,0 +1,4 @@
+numpy==1.19.5
+scipy==1.5.4
+termcolor==1.1.0
+tqdm==4.59.0

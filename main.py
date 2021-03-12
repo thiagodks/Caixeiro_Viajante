@@ -52,6 +52,7 @@ try:
 		adj_matrix, size_indiv = util.create_adj_matrix(coordinates)
 	else: 
 		adj_matrix, size_indiv = util.read_adj_matrix(args['f'])
+		print(adj_matrix)
 
 except Exception as e:
 	print(colored("\033[1m"+"\n => [ERROR]: An error occurred while reading the input file, check the file and its format!\n", "red"))
@@ -93,11 +94,23 @@ if not PARALLEL_EXEC:
 
 else:
 
-	npop = [50, 100, 150]
-	nger = [1000, 10000, 20000]
+	npop = [50, 100]
+	nger = [10000, 20000, 50000]
 	mutation_rate = [0.01, 0.05, 0.1]
 	crossing_rate = [0.6, 0.8, 1]
 	elitism = [True]
+	
+	# npop = [50, 100, 150]
+	# nger = [100, 500, 1000]
+	# mutation_rate = [0.01, 0.05, 0.1]
+	# crossing_rate = [0.6, 0.8, 1]
+	# elitism = [True, False]
+
+	print("\033[1m"+" => npop: ", npop)
+	print("\033[1m"+" => nger: ", nger)
+	print("\033[1m"+" => mutation_rate: ", mutation_rate)
+	print("\033[1m"+" => crossing_rate: ", crossing_rate)
+	print("\033[1m"+" => elitism: ", elitism, "\n")
 
 	all_list = [npop, nger, crossing_rate, mutation_rate, elitism]
 	parameters = list(itertools.product(*all_list)) 
@@ -124,9 +137,9 @@ else:
 	results_ord.sort(key=lambda x: x[1])
 	results_ord = results_ord[:50]
 
-	util.plot_table(results, results_ord)
-	util.plot_graphics(best_solution, "best_solution")
-	util.plot_graphics(worst_solution, "worst_solution")
+	util.plot_table(results, results_ord, file)
+	util.plot_graphics(best_solution, file[len(file)-1]+"_best_solution")
+	util.plot_graphics(worst_solution, file[len(file)-1]+"_worst_solution")
 
 	print(colored('\033[1m'+"\n#####################################\n-> Best solution found: ", "green"))
 	print(best_solution.get_parameters())

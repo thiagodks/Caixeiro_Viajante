@@ -1,6 +1,7 @@
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
 from termcolor import colored
+import matplotlib.transforms
 import numpy as np
 import pandas as pd
 
@@ -76,7 +77,6 @@ def plot_graphics(population, name_save=""):
 	ax2.set_title("Media e Mediana da fitness a cada geração")
 	ax2.set_xlabel("Gerações", fontsize='medium')
 	ax2.set_ylabel("Fitness", fontsize='medium')
-
 	ax2.plot(list(range(0, population.nger, step)), avg_ger_step, 'r--', label='Media Fitness: %.4f' % population.avg_fitness)
 	ax2.plot(list(range(0, population.nger, step)), median_ger_step, 'b--', label='Mediana Fitness: %.4f' % population.median_fitness)
 	ax2.legend(ncol=1)
@@ -94,7 +94,7 @@ def plot_graphics(population, name_save=""):
 	print(colored("\033[1m"+"\n => Graphic saved in: " + 'graficos/'+name_save+population.file_name+'fitness.png', "green"))
 	fig.savefig('graficos/'+name_save+population.file_name+'fitness.png')
 
-def plot_table(results, results_ord):
+def plot_table(results, results_ord, file):
 	table = {"NPOP": [], "NGER": [], "TX_M": [], "TX_C": [], "Elitism": [],
 			 "Fitness": [], "Avg Fit": [], "Median Fit": [], "STD": []}
 	
@@ -129,5 +129,5 @@ def plot_table(results, results_ord):
 	nbbox = matplotlib.transforms.Bbox.from_extents(points/plt.gcf().dpi)
 
 	fig.tight_layout()
-	print(colored("\033[1m"+"\n => Table saved in: " + 'tabelas/'++file[len(file)-1]+'.png', "green"))
+	print(colored("\033[1m"+"\n => Table saved in: " + 'tabelas/'+file[len(file)-1]+'.png', "green"))
 	fig.savefig('tabelas/'+file[len(file)-1]+'.png', dpi=500, bbox_inches=nbbox)

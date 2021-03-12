@@ -1,0 +1,6 @@
+lau15_dist.txt = 291
+bier127.tsp = 118282
+berlin52.tsp = 7542
+att48 = 10628
+a280.tsp = 2579
+d18512 = 645238

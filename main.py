@@ -26,14 +26,6 @@ def exec_ag(prmt):
 
 	return population
 
-def get_fitness(fitness):
-	x1 = str(fitness)
-	if x1.find("e") == -1: 
-		return ("%.7f" % fitness)
-	x2 = x1[:7]
-	x2 += x1[x1.find("e"):]
-	return x2
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', help='file input: -f example.txt')
 parser.add_argument('-t', help='type input: -t ADJM or EUC2D')

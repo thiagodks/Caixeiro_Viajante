@@ -85,18 +85,12 @@ if not PARALLEL_EXEC:
 		print("\n => Path ("+str(population.best_individual.fitness)+"): \n", population.best_individual.chromosome, end='\n\n')
 
 else:
-
-	npop = [50, 100]
-	nger = [10000, 20000, 50000]
+	
+	npop = [50, 100, 150]
+	nger = [100, 500, 1000]
 	mutation_rate = [0.01, 0.05, 0.1]
 	crossing_rate = [0.6, 0.8, 1]
-	elitism = [True]
-	
-	# npop = [50, 100, 150]
-	# nger = [100, 500, 1000]
-	# mutation_rate = [0.01, 0.05, 0.1]
-	# crossing_rate = [0.6, 0.8, 1]
-	# elitism = [True, False]
+	elitism = [True, False]
 
 	print("\033[1m"+" => npop: ", npop)
 	print("\033[1m"+" => nger: ", nger)

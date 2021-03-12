@@ -44,7 +44,6 @@ try:
 		adj_matrix, size_indiv = util.create_adj_matrix(coordinates)
 	else: 
 		adj_matrix, size_indiv = util.read_adj_matrix(args['f'])
-		print(adj_matrix)
 
 except Exception as e:
 	print(colored("\033[1m"+"\n => [ERROR]: An error occurred while reading the input file, check the file and its format!\n", "red"))
